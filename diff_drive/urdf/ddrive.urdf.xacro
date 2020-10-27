@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cybercaster">
 
+    <xacro:include filename="$(find diff_drive)/urdf/ddrive.gazebo.xacro"/>
+
     <!-- Load from yaml file -->
     <xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
     <xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
+    <!-- rectange length width height -->
     <xacro:property name='L' value='${dims["L"]}'/>
     <xacro:property name='W' value='${dims["W"]}'/>
     <xacro:property name='H' value='${dims["H"]}'/>
+    <!-- wheel radius and length -->
     <xacro:property name='R' value='${H}'/>
     <xacro:property name='WL' value='${W/5}'/>
+    <!-- masses -->
     <xacro:property name='MR' value='0.5'/>
     <xacro:property name='MW' value='0.1'/>
 

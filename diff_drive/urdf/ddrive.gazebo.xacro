@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cybercaster">
+
+    <!-- Load from yaml file -->
+    <xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
+    <xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
+    <xacro:property name='L' value='${dims["L"]}'/>
+    <xacro:property name='W' value='${dims["W"]}'/>
+    <xacro:property name='H' value='${dims["H"]}'/>
+    <xacro:property name='R' value='${H}'/>
+    <xacro:property name='WL' value='${W/5}'/>
+    <xacro:property name='MR' value='0.5'/>
+    <xacro:property name='MW' value='0.1'/>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/TurquoiseGlow</material>
+    </gazebo>
+
+    <gazebo reference="left_wheel_link">
+        <mu1>0.1</mu1>
+        <mu2>0.1</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.1</maxVel>
+        <fdir1>1 0 0</fdir1>
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="right_wheel_link">
+        <mu1>0.1</mu1>
+        <mu2>0.1</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.1</maxVel>
+        <fdir1>1 0 0</fdir1>
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="caster_bottom_link">
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="caster_top_link">
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+</robot>
