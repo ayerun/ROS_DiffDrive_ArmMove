@@ -106,7 +106,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES diff_drive
-#  CATKIN_DEPENDS geometry_msgs rospy rviz std_msgs
+ CATKIN_DEPENDS geometry_msgs std_msgs
 #  DEPENDS system_lib
 )
 
