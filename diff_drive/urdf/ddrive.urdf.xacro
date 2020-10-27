@@ -49,7 +49,7 @@
         <parent link="base_link"/>
         <child link="left_wheel_link"/>
         <origin xyz="${L/4} ${-W/2-WL/2} ${H/2}" rpy='${-pi/2} 0 0'/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 0 1"/>
     </joint>
 
     <link name="left_wheel_link">
@@ -80,7 +80,7 @@
         <parent link="base_link"/>
         <child link="right_wheel_link"/>
         <origin xyz="${L/4} ${W/2+WL/2} ${H/2}" rpy='${-pi/2} 0 0'/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 0 1"/>
     </joint>
 
     <link name="right_wheel_link">
@@ -104,6 +104,66 @@
             <inertia ixx="${(pi*R**4)/4}" ixy="0" ixz="0"
                 iyy="${(pi*R**4)/4}" iyz="0"
                 izz="${(pi*R**4)/2}" />
+        </inertial>
+    </link>
+
+    <joint name="caster_bottom_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_bottom_link"/>
+        <origin xyz="${-3*L/8} 0 0" rpy="${-pi/2} 0 0"/>
+    </joint>
+
+    <link name="caster_bottom_link">
+        <visual>
+            <geometry>
+                <sphere radius='${R-(H/2)}'/>
+            </geometry>
+            <material name="yellow_mat">
+                <color rgba='1 1 0 1'/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <sphere radius='${R-(H/2)}'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <mass value="0.1" />
+            <inertia ixx="${(2/5)*0.1*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
+                iyy="${(2/5)*0.1*(R-(H/2))**2}" iyz="0.0"
+                izz="${(2/5)*0.1*(R-(H/2))**2}" />
+        </inertial>
+    </link>
+
+    <joint name="caster_top_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_top_link"/>
+        <origin xyz="${-3*L/8} 0 ${H}" rpy="${-pi/2} 0 0"/>
+    </joint>
+
+    <link name="caster_top_link">
+        <visual>
+            <geometry>
+                <sphere radius='${R-(H/2)}'/>
+            </geometry>
+            <material name="yellow_mat">
+                <color rgba='1 1 0 1'/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <sphere radius='${R-(H/2)}'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <mass value="0.1" />
+            <inertia ixx="${(2/5)*0.1*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
+                iyy="${(2/5)*0.1*(R-(H/2))**2}" iyz="0.0"
+                izz="${(2/5)*0.1*(R-(H/2))**2}" />
         </inertial>
     </link>
 
