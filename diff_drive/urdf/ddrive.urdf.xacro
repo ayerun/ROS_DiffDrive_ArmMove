@@ -9,6 +9,8 @@
     <xacro:property name='H' value='${dims["H"]}'/>
     <xacro:property name='R' value='${H}'/>
     <xacro:property name='WL' value='${W/5}'/>
+    <xacro:property name='MR' value='0.5'/>
+    <xacro:property name='MW' value='0.1'/>
 
     <link name='base_footprint' type='fixed'/>
 
@@ -20,7 +22,7 @@
 
     <link name='base_link'>
         <visual>
-            <origin xyz='0 0 ${H/2}'/>
+            <origin xyz='0 0 0'/>
             <geometry>
                 <box size='${L} ${W} ${H}'/>
             </geometry>
@@ -38,17 +40,17 @@
 
         <inertial>
             <origin xyz='0 0 ${H/2}'/>
-            <mass value='0.5'/>
-            <inertia ixx="${(L+W**3)/12}" ixy="0" ixz="0"
-               iyy="${(W+L**3)/12}" iyz="0"
-               izz="${(L*W*(L**2+W**2))/12}" />
+            <mass value='${MR}'/>
+            <inertia ixx="${MR*(H**2+W**2)/12}" ixy="0" ixz="0"
+               iyy="${MR*(H**2+L**2)/12}" iyz="0"
+               izz="${MR*(L**2+W**2)/12}" />
         </inertial>
     </link>
 
     <joint name="left_wheel" type='continuous'>
         <parent link="base_link"/>
         <child link="left_wheel_link"/>
-        <origin xyz="${L/4} ${-W/2-WL/2} ${H/2}" rpy='${-pi/2} 0 0'/>
+        <origin xyz="${L/4} ${-W/2-WL/2} 0" rpy='${-pi/2} 0 0'/>
         <axis xyz="0 0 1"/>
     </joint>
 
@@ -64,22 +66,22 @@
 
         <collision>
             <geometry>
-                <cylinder length='${R}' radius='${WL}'/>
+                <cylinder radius='${R}' length='${WL}'/>
             </geometry>
         </collision>
 
         <inertial>
-            <mass value="0.1" />
-            <inertia ixx="${(pi*R**4)/4}" ixy="0" ixz="0"
-                iyy="${(pi*R**4)/4}" iyz="0"
-                izz="${(pi*R**4)/2}" />
+            <mass value="${MW}" />
+            <inertia ixx="${(1/12)*MW*(3*R**2+WL**2)}" ixy="0" ixz="0"
+                iyy="${(1/12)*MW*(3*R**2+WL**2)}" iyz="0"
+                izz="${0.5*MW*R**2}" />
         </inertial>
     </link>
 
     <joint name="right_wheel" type='continuous'>
         <parent link="base_link"/>
         <child link="right_wheel_link"/>
-        <origin xyz="${L/4} ${W/2+WL/2} ${H/2}" rpy='${-pi/2} 0 0'/>
+        <origin xyz="${L/4} ${W/2+WL/2} 0" rpy='${-pi/2} 0 0'/>
         <axis xyz="0 0 1"/>
     </joint>
 
@@ -95,22 +97,22 @@
 
         <collision>
             <geometry>
-                <cylinder length='${R}' radius='${WL}'/>
+                <cylinder radius='${R}' length='${WL}'/>
             </geometry>
         </collision>
 
         <inertial>
             <mass value="0.1" />
-            <inertia ixx="${(pi*R**4)/4}" ixy="0" ixz="0"
-                iyy="${(pi*R**4)/4}" iyz="0"
-                izz="${(pi*R**4)/2}" />
+            <inertia ixx="${(1/12)*MW*(3*R**2+WL**2)}" ixy="0" ixz="0"
+                iyy="${(1/12)*MW*(3*R**2+WL**2)}" iyz="0"
+                izz="${0.5*MW*R**2}" />
         </inertial>
     </link>
 
     <joint name="caster_bottom_joint" type="fixed">
         <parent link="base_link"/>
         <child link="caster_bottom_link"/>
-        <origin xyz="${-3*L/8} 0 0" rpy="${-pi/2} 0 0"/>
+        <origin xyz="${-3*L/8} 0 ${-H/2}" rpy="${-pi/2} 0 0"/>
     </joint>
 
     <link name="caster_bottom_link">
@@ -130,17 +132,17 @@
         </collision>
 
         <inertial>
-            <mass value="0.1" />
-            <inertia ixx="${(2/5)*0.1*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
-                iyy="${(2/5)*0.1*(R-(H/2))**2}" iyz="0.0"
-                izz="${(2/5)*0.1*(R-(H/2))**2}" />
+            <mass value="${MW}" />
+            <inertia ixx="${(2/5)*MW*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
+                iyy="${(2/5)*MW*(R-(H/2))**2}" iyz="0.0"
+                izz="${(2/5)*MW*(R-(H/2))**2}" />
         </inertial>
     </link>
 
     <joint name="caster_top_joint" type="fixed">
         <parent link="base_link"/>
         <child link="caster_top_link"/>
-        <origin xyz="${-3*L/8} 0 ${H}" rpy="${-pi/2} 0 0"/>
+        <origin xyz="${-3*L/8} 0 ${H/2}" rpy="${-pi/2} 0 0"/>
     </joint>
 
     <link name="caster_top_link">
@@ -160,10 +162,10 @@
         </collision>
 
         <inertial>
-            <mass value="0.1" />
-            <inertia ixx="${(2/5)*0.1*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
-                iyy="${(2/5)*0.1*(R-(H/2))**2}" iyz="0.0"
-                izz="${(2/5)*0.1*(R-(H/2))**2}" />
+            <mass value="${MW}" />
+            <inertia ixx="${(2/5)*MW*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
+                iyy="${(2/5)*MW*(R-(H/2))**2}" iyz="0.0"
+                izz="${(2/5)*MW*(R-(H/2))**2}" />
         </inertial>
     </link>
 
