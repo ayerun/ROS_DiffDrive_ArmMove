@@ -1,38 +1,110 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cybercaster">
 
-<!-- Load from yaml file -->
-<xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
-<xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
-<xacro:property name='L' value='${dims["L"]}'/>
-<xacro:property name='W' value='${dims["W"]}'/>
-<xacro:property name='H' value='${dims["H"]}'/>
+    <!-- Load from yaml file -->
+    <xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
+    <xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
+    <xacro:property name='L' value='${dims["L"]}'/>
+    <xacro:property name='W' value='${dims["W"]}'/>
+    <xacro:property name='H' value='${dims["H"]}'/>
+    <xacro:property name='R' value='${H}'/>
+    <xacro:property name='WL' value='${W/5}'/>
 
-<link name='base_footprint' type='fixed'/>
+    <link name='base_footprint' type='fixed'/>
 
-<joint name='base_joint' type='fixed'>
-    <parent link='base_footprint'/>
-    <child link='base_link'/>
-    <origin xyz='0 0 0' rpy='0 0 0'/>
-</joint>
+    <joint name='base_joint' type='fixed'>
+        <parent link='base_footprint'/>
+        <child link='base_link'/>
+        <origin xyz='0 0 0' rpy='0 0 0'/>
+    </joint>
 
-<link name='base_link'>
-    <visual>
-        <origin xyz='0 0 ${H/2}'/>
-        <geometry>
-            <box size='${L} ${W} ${H}'/>
-        </geometry>
-        <material name='green_mat'>
-            <color rgba='0 1 0 1' />
-        </material>
-    </visual>
-    <collision>
-        <origin xyz='0 0 ${H/2}'/>
-        <geometry>
-            <box size='${L} ${W} ${H}'/>
-        </geometry>
-    </collision>
-</link>
+    <link name='base_link'>
+        <visual>
+            <origin xyz='0 0 ${H/2}'/>
+            <geometry>
+                <box size='${L} ${W} ${H}'/>
+            </geometry>
+            <material name='cyan_mat'>
+                <color rgba='0 1 1 1' />
+            </material>
+        </visual>
 
+        <collision>
+            <origin xyz='0 0 ${H/2}'/>
+            <geometry>
+                <box size='${L} ${W} ${H}'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz='0 0 ${H/2}'/>
+            <mass value='0.5'/>
+            <inertia ixx="${(L+W**3)/12}" ixy="0" ixz="0"
+               iyy="${(W+L**3)/12}" iyz="0"
+               izz="${(L*W*(L**2+W**2))/12}" />
+        </inertial>
+    </link>
+
+    <joint name="left_wheel" type='continuous'>
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <origin xyz="${L/4} ${-W/2-WL/2} ${H/2}" rpy='${-pi/2} 0 0'/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="left_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius='${R}' length='${WL}'/>
+            </geometry>
+            <material name="pink_mat">
+                <color rgba='1 0 1 1'/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder length='${R}' radius='${WL}'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <mass value="0.1" />
+            <inertia ixx="${(pi*R**4)/4}" ixy="0" ixz="0"
+                iyy="${(pi*R**4)/4}" iyz="0"
+                izz="${(pi*R**4)/2}" />
+        </inertial>
+    </link>
+
+    <joint name="right_wheel" type='continuous'>
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <origin xyz="${L/4} ${W/2+WL/2} ${H/2}" rpy='${-pi/2} 0 0'/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="right_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius='${R}' length='${WL}'/>
+            </geometry>
+            <material name="pink_mat">
+                <color rgba='1 0 1 1'/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder length='${R}' radius='${WL}'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <mass value="0.1" />
+            <inertia ixx="${(pi*R**4)/4}" ixy="0" ixz="0"
+                iyy="${(pi*R**4)/4}" iyz="0"
+                izz="${(pi*R**4)/2}" />
+        </inertial>
+    </link>
 
 </robot>
