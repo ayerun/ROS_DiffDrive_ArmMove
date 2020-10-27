@@ -4,7 +4,35 @@
 <!-- Load from yaml file -->
 <xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
 <xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
-<xacro:property name='L' value='${dims["L"]}' />
-<xacro:property name='W' value='${dims["W"]}' />
-<xacro:property name='H' value='${dims["H"]}' />
+<xacro:property name='L' value='${dims["L"]}'/>
+<xacro:property name='W' value='${dims["W"]}'/>
+<xacro:property name='H' value='${dims["H"]}'/>
 
+<link name='base_footprint' type='fixed'/>
+
+<joint name='base_joint' type='fixed'>
+    <parent link='base_footprint'/>
+    <child link='base_link'/>
+    <origin xyz='0 0 0' rpy='0 0 0'/>
+</joint>
+
+<link name='base_link'>
+    <visual>
+        <origin xyz='0 0 ${H/2}'/>
+        <geometry>
+            <box size='${L} ${W} ${H}'/>
+        </geometry>
+        <material name='green_mat'>
+            <color rgba='0 1 0 1' />
+        </material>
+    </visual>
+    <collision>
+        <origin xyz='0 0 ${H/2}'/>
+        <geometry>
+            <box size='${L} ${W} ${H}'/>
+        </geometry>
+    </collision>
+</link>
+
+
+</robot>

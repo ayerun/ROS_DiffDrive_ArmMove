@@ -1,7 +1,7 @@
 <launch>
   <!-- load the urdf into the parameter server -->
-  <!-- <param name="robot_description" textfile="$(find me495_urdf)/urdf/slidebot.urdf" /> -->
-  <param name="robot_description" command="xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" />
+  <param name="robot_description" command="xacro '$(find diff_drive)/urdf/ddrive.urdf.xacro'" />
+  <rosparam file='$(find diff_drive)/config/dims.yaml' />
 
   <!-- The robot_state_publisher reads the urdf from /robot_description parameter
        and listens to joint information on the /joint_states topic -->
@@ -10,10 +10,9 @@
   <!-- The joint state publisher will be launched with a gui, read the urdf from /robot_description
        and publish the joint values on /joint_states --> 
   <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/> -->
-  <!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/> -->
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
 
   <!-- rviz will enable us to see the robot -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot3_description)/rviz/model.rviz"/>
-  <!-- <node name="rviz" pkg="rviz" type="rviz" /> -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find diff_drive)/config/cybercaster.rviz"/>
 
 </launch>
