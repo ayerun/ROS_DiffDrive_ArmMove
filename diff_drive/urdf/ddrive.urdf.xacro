@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cybercaster">
+
+<!-- Load from yaml file -->
+<xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
+<xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
+<xacro:property name='L' value='${dims["L"]}' />
+<xacro:property name='W' value='${dims["W"]}' />
+<xacro:property name='H' value='${dims["H"]}' />
+
