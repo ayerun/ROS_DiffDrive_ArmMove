@@ -20,8 +20,8 @@
     </gazebo>
 
     <gazebo reference="left_wheel_link">
-        <mu1>0.1</mu1>
-        <mu2>0.1</mu2>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
         <kp>500000.0</kp>
         <kd>10.0</kd>
         <minDepth>0.001</minDepth>
@@ -31,8 +31,8 @@
     </gazebo>
 
     <gazebo reference="right_wheel_link">
-        <mu1>0.1</mu1>
-        <mu2>0.1</mu2>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
         <kp>500000.0</kp>
         <kd>10.0</kd>
         <minDepth>0.001</minDepth>
