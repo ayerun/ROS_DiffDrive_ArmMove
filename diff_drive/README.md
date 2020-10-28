@@ -35,5 +35,3 @@
 ```
 roslaunch diff_drive ddrive_rviz.launch gui:=false
 ```
-
-#### Videos:
