@@ -9,7 +9,7 @@
 1. Add package to the src folder in your ROS workspace
 1. Compile: `catkin_make`
 1. Start simulation: `roslaunch diff_drive [launchfilename]`
-1. ddrive.launch is used to launch the robot in gazebo and make the flip or follow a rectangular trajectory
+1. ddrive.launch is used to launch the robot in gazebo and make the robot flip or follow a rectangular trajectory
 1. ddrive_rviz.launch is a debugging launch file used to vizualize the urdf file in rviz
 
 #### Configuration Instructions:
@@ -22,7 +22,7 @@
     * rect launches a follow_rect node
     * When these arguments are true the corresponding nodes are launched
     * By default gaz and flip are true
-    * Do not simulataneous set flip and rect to true
+    * Do not simultaneously set flip and rect to true
     * Gazebo is launched in a paused state, but the flip and follow_rect nodes contain code that unpauses Gazebo
     * Set arguements true/false via the command line or the launch file
 1. ddrive_rviz.launch configuration
