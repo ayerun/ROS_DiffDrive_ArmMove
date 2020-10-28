@@ -25,13 +25,13 @@
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find diff_drive)/config/cybercaster.rviz"/>
 
     <!-- start follow_rect node -->
-    <node name="follow_rect" pkg="diff_drive" type="follow_rect" if='$(arg rect)' output='screen'>
+    <node name="follow_rect" pkg="diff_drive" type="follow_rect" if='$(arg rect)' >
         <remap from='/cmd_vel' to='diff/cmd_vel'/>
         <rosparam file='$(find diff_drive)/config/rect_dims.yaml' />
     </node>
 
     <!-- start flip node -->
-    <node name="flip" pkg="diff_drive" type="flip" output='screen' if='$(arg flip)'>
+    <node name="flip" pkg="diff_drive" type="flip" if='$(arg flip)'>
         <remap from='/cmd_vel' to='diff/cmd_vel'/>
     </node>
 
