@@ -20,9 +20,9 @@
     <!-- <xacro:property name='MC' value='0.5'/> -->
 
     <!-- default for masses for rect -->
-    <xacro:property name='MR' value='0.1'/>
+    <xacro:property name='MR' value='0.01'/>
     <!-- <xacro:property name='MW' value='0.02'/> -->
-    <xacro:property name='MC' value='0.02'/>
+    <xacro:property name='MC' value='0.01'/>
 
 
     <link name='base_footprint' type='fixed'/>
