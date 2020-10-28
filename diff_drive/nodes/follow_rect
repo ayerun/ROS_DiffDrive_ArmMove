@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+
+import rospy
+from geometry_msgs.msg import Twist, Vector3
+from math import pi
+import time
+
+class rect:
+    '''
+    stuff
+    '''
+    def __init__(self):
+        '''
+        stuff
+        '''
+        #import rectangle parameters
+        self.len = rospy.get_param('follow_rect/rect_L')
+        self.wid = rospy.get_param('follow_rect/rect_W')
+        print('initializing')
+        #initialize publisher
+        self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
+        self.prate = rospy.Rate(300)
+        print('sleeping')
+        time.sleep(5)
+
+    def create_twist(self,xdot,omega):
+        '''
+        converts velocity and angular velocity to geometry_msgs/Twist message
+        args:       xdot - velocity
+                    omega - angular velocity
+        reuturns:   Twist message
+        '''
+        return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
+                    angular = Vector3(x = 0, y = 0, z = omega))
+
+    def turn(self):
+        '''
+        turn robot 90 degrees
+        '''
+        now = rospy.get_time()
+        while rospy.get_time() < now+4:
+            self.pub.publish(self.create_twist(0,pi/8))
+            self.prate.sleep()
+        #self.pub.publish(self.create_twist(0,0))
+
+
+    def follow(self):
+        '''
+        stuff
+        '''
+        #first side
+        now = rospy.get_time()
+        while rospy.get_time() < now+self.len:
+            self.pub.publish(self.create_twist(1,0))
+            self.prate.sleep()
+        self.pub.publish(self.create_twist(0,0))
+
+        #turn
+        self.turn()
+
+        #second side
+        now = rospy.get_time()
+        while rospy.get_time() < now+self.wid:
+            self.pub.publish(self.create_twist(1,0))
+            self.prate.sleep()
+        self.pub.publish(self.create_twist(0,0))
+
+        #turn
+        self.turn()
+
+        #third side
+        now = rospy.get_time()
+        while rospy.get_time() < now+self.len:
+            self.pub.publish(self.create_twist(1,0))
+            self.prate.sleep()
+        self.pub.publish(self.create_twist(0,0))
+
+        #turn
+        self.turn()
+
+        #fourth side
+        now = rospy.get_time()
+        while rospy.get_time() < now+self.wid:
+            self.pub.publish(self.create_twist(1,0))
+            self.prate.sleep()
+        self.pub.publish(self.create_twist(0,0))
+
+        #turn
+        self.turn()
+
+
+        
+
+
+def main():
+
+    rospy.init_node('follow_rect')
+    r = rect()
+    while not rospy.is_shutdown():
+        r.follow()
+    rospy.spin()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass

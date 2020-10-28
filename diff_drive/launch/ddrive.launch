@@ -1,10 +1,11 @@
 <launch>
+    <arg name='gaz' default='true'/>
     <arg name="x_pos" default="0.0"/>
-    <arg name="y_pos" default="0.0"/>
+    <arg name="y_pos" default="1.0"/>
     <arg name="z_pos" default="0.1"/>
     <!-- <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/> -->
     
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" if='$(arg gaz)'>
         <arg name="world_name" value="$(find diff_drive)/worlds/ddrive.world"/>
         <arg name="paused" value="false"/>
     </include>
@@ -14,4 +15,9 @@
 
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find diff_drive)/config/cybercaster.rviz"/>
+
+    <node name="follow_rect" pkg="diff_drive" type="follow_rect" output='screen' >
+        <remap from='/cmd_vel' to='diff/cmd_vel'/>
+        <rosparam file='$(find diff_drive)/config/rect_dims.yaml' />
+    </node>
 </launch>
