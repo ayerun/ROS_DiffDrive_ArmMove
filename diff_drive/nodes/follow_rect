@@ -19,11 +19,12 @@ class rect:
         #import rectangle parameters
         self.len = rospy.get_param('follow_rect/rect_L')
         self.wid = rospy.get_param('follow_rect/rect_W')
-        print('initializing')
+
         #initialize publisher
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
         self.prate = rospy.Rate(300)
-        print('sleeping')
+
+        #GET RID OF THIS
         time.sleep(5)
 
     def create_twist(self,xdot,omega):

@@ -1,5 +1,7 @@
 <launch>
     <arg name='gaz' default='true'/>
+    <arg name='rect' default='false'/>
+    <arg name='flip' default='true'/>
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="1.0"/>
     <arg name="z_pos" default="0.1"/>
@@ -16,8 +18,12 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find diff_drive)/config/cybercaster.rviz"/>
 
-    <node name="follow_rect" pkg="diff_drive" type="follow_rect" output='screen' >
+    <node name="follow_rect" pkg="diff_drive" type="follow_rect" if='$(arg rect)'>
         <remap from='/cmd_vel' to='diff/cmd_vel'/>
         <rosparam file='$(find diff_drive)/config/rect_dims.yaml' />
+    </node>
+
+    <node name="flip" pkg="diff_drive" type="flip" output='screen' if='$(arg flip)'>
+        <remap from='/cmd_vel' to='diff/cmd_vel'/>
     </node>
 </launch>

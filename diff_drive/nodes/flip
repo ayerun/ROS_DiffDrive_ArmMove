@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+import rospy
+from geometry_msgs.msg import Twist, Vector3
+from math import pi
+import time
+
+class flip:
+    '''
+    Publishes:  geometry_msgs/Twist message to cmd_vel
+    '''
+    def __init__(self):
+        '''
+        constructor of rect class
+        initializes publisher
+        '''
+
+        #initialize publisher
+        self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
+        self.prate = rospy.Rate(300)
+        time.sleep(5)
+
+    def create_twist(self,xdot,omega):
+        '''
+        converts velocity and angular velocity to geometry_msgs/Twist message
+        args:       xdot - velocity
+                    omega - angular velocity
+        reuturns:   Twist message
+        '''
+        return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
+                    angular = Vector3(x = 0, y = 0, z = omega))
+
+    def flip(self):
+        now = rospy.get_time()
+        while rospy.get_time() < now+0.5:
+            self.pub.publish(self.create_twist(5,0))
+            self.prate.sleep()
+        while rospy.get_time() < now+1:
+            self.pub.publish(self.create_twist(-5,0))
+            self.prate.sleep()
+
+
+        
+
+
+def main():
+    '''
+    main function
+    creates rect object
+    uses rect object to continuously follow rectangle trajectory
+    '''
+
+    rospy.init_node('follow_rect')
+    f = flip()
+    while not rospy.is_shutdown():
+        f.flip()
+    rospy.spin()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass
