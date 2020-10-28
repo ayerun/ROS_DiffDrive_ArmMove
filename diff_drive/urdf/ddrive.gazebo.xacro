@@ -9,7 +9,6 @@
     <xacro:property name='W' value='${dims["W"]}'/>
     <xacro:property name='H' value='${dims["H"]}'/>
     <!-- wheel radius and length -->
-    <!-- <xacro:property name='R' value='${H}'/> -->
     <xacro:property name='R' value='${1.25*H}'/>
     <xacro:property name='WL' value='${W/5}'/>
 

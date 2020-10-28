@@ -7,11 +7,12 @@ import time
 
 class flip:
     '''
+    Contains function to flip robot
     Publishes:  geometry_msgs/Twist message to cmd_vel
     '''
     def __init__(self):
         '''
-        constructor of rect class
+        constructor for flip class
         initializes publisher
         '''
 
@@ -31,6 +32,10 @@ class flip:
                     angular = Vector3(x = 0, y = 0, z = omega))
 
     def flip(self):
+        '''
+        Moves robot along straigh line trajectory
+        Robot stops, flips, and reverses direction every 2 seconds
+        '''
         now = rospy.get_time()
         while rospy.get_time() < now+2:
             self.pub.publish(self.create_twist(1,0))
@@ -53,11 +58,11 @@ class flip:
 def main():
     '''
     main function
-    creates rect object
-    uses rect object to continuously follow rectangle trajectory
+    creates flip object
+    uses flip object to continuously flip robot
     '''
 
-    rospy.init_node('follow_rect')
+    rospy.init_node('flip')
     f = flip()
     while not rospy.is_shutdown():
         f.flip()

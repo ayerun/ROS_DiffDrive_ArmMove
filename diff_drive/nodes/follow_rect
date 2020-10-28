@@ -46,18 +46,6 @@ class rect:
             self.pub.publish(self.create_twist(0,pi/4))
             self.prate.sleep()
         self.pub.publish(self.create_twist(0,0))
-    
-    def slowstop(self):
-        '''
-        turn robot 90 degrees
-        '''
-        i = 0
-        now = rospy.get_time()
-        while rospy.get_time() < now+0.2:
-            self.pub.publish(self.create_twist(0.5-(i/30),0))
-            i+=1
-            self.prate.sleep()
-        self.pub.publish(self.create_twist(0,0))
 
 
     def follow(self):
