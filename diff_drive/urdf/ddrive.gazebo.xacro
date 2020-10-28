@@ -4,11 +4,14 @@
     <!-- Load from yaml file -->
     <xacro:property name='dimyaml' value='$(find diff_drive)/config/dims.yaml'/>
     <xacro:property name='dims' value='${load_yaml(dimyaml)}'/>
+    <!-- rectange length width height -->
     <xacro:property name='L' value='${dims["L"]}'/>
     <xacro:property name='W' value='${dims["W"]}'/>
     <xacro:property name='H' value='${dims["H"]}'/>
+    <!-- wheel radius and length -->
     <xacro:property name='R' value='${H}'/>
     <xacro:property name='WL' value='${W/5}'/>
+    <!-- masses -->
     <xacro:property name='MR' value='0.5'/>
     <xacro:property name='MW' value='0.1'/>
 
@@ -56,6 +59,29 @@
         <minDepth>0.001</minDepth>
         <maxVel>1</maxVel>
         <material>Gazebo/YellowGlow</material>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>na</rosDebugLevel>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>100</updateRate>
+            <leftJoint>left_wheel</leftJoint>
+            <rightJoint>right_wheel</rightJoint>
+            <wheelSeparation>${W+WL}</wheelSeparation>
+            <wheelDiameter>${2*R}</wheelDiameter>
+            <wheelTorque>20</wheelTorque>
+            <commandTopic>diff/cmd_vel</commandTopic>
+            <odometryTopic>diff/odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
+            <publishWheelTF>false</publishWheelTF>
+            <publishOdomTF>true</publishOdomTF>
+            <publishWheelJointState>true</publishWheelJointState>
+            <wheelAcceleration>false</wheelAcceleration>
+            <odometrySource>world</odometrySource>
+            <publishTf>1</publishTf>
+        </plugin>
     </gazebo>
 
 </robot>

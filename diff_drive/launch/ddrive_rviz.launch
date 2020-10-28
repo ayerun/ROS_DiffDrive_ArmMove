@@ -16,5 +16,7 @@
 
   <!-- rviz will enable us to see the robot -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find diff_drive)/config/cybercaster.rviz"/>
+  <!-- <node name="rviz" pkg="rviz" type="rviz" /> -->
+
 
 </launch>
