@@ -32,12 +32,19 @@ class flip:
 
     def flip(self):
         now = rospy.get_time()
-        while rospy.get_time() < now+0.5:
-            self.pub.publish(self.create_twist(5,0))
-            self.prate.sleep()
         while rospy.get_time() < now+1:
-            self.pub.publish(self.create_twist(-5,0))
+            self.pub.publish(self.create_twist(2,0))
             self.prate.sleep()
+        now = rospy.get_time()
+        while rospy.get_time() < now+2:
+            self.pub.publish(self.create_twist(0,0))
+            self.prate.sleep()
+        now = rospy.get_time()
+        while rospy.get_time() < now+1:
+            self.pub.publish(self.create_twist(-2,0))
+            self.prate.sleep()
+        self.pub.publish(self.create_twist(0,0))
+        time.sleep(1)
 
 
         

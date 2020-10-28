@@ -5,7 +5,6 @@
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="1.0"/>
     <arg name="z_pos" default="0.1"/>
-    <!-- <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/> -->
     
     <include file="$(find gazebo_ros)/launch/empty_world.launch" if='$(arg gaz)'>
         <arg name="world_name" value="$(find diff_drive)/worlds/ddrive.world"/>

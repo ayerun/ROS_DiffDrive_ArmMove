@@ -11,11 +11,19 @@
     <xacro:property name='W' value='${dims["W"]}'/>
     <xacro:property name='H' value='${dims["H"]}'/>
     <!-- wheel radius and length -->
-    <xacro:property name='R' value='${H}'/>
+    <!-- <xacro:property name='R' value='${H}'/> -->
+    <xacro:property name='R' value='${1.25*H}'/>
     <xacro:property name='WL' value='${W/5}'/>
     <!-- masses -->
+    <!-- <xacro:property name='MR' value='1'/> -->
+    <xacro:property name='MW' value='0.5'/>
+    <!-- <xacro:property name='MC' value='0.5'/> -->
+
+    <!-- default for masses for rect -->
     <xacro:property name='MR' value='0.1'/>
-    <xacro:property name='MW' value='0.02'/>
+    <!-- <xacro:property name='MW' value='0.02'/> -->
+    <xacro:property name='MC' value='0.02'/>
+
 
     <link name='base_footprint' type='fixed'/>
 
@@ -52,7 +60,7 @@
     <joint name="left_wheel" type='continuous'>
         <parent link="base_link"/>
         <child link="left_wheel_link"/>
-        <origin xyz="${L/4} ${-W/2-WL/2} 0" rpy='${-pi/2} 0 0'/>
+        <origin xyz="${L/2} ${-W/2-WL/2} 0" rpy='${-pi/2} 0 0'/>
         <axis xyz="0 0 1"/>
     </joint>
 
@@ -83,7 +91,7 @@
     <joint name="right_wheel" type='continuous'>
         <parent link="base_link"/>
         <child link="right_wheel_link"/>
-        <origin xyz="${L/4} ${W/2+WL/2} 0" rpy='${-pi/2} 0 0'/>
+        <origin xyz="${L/2} ${W/2+WL/2} 0" rpy='${-pi/2} 0 0'/>
         <axis xyz="0 0 1"/>
     </joint>
 
@@ -134,10 +142,10 @@
         </collision>
 
         <inertial>
-            <mass value="${MW}" />
-            <inertia ixx="${(2/5)*MW*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
-                iyy="${(2/5)*MW*(R-(H/2))**2}" iyz="0.0"
-                izz="${(2/5)*MW*(R-(H/2))**2}" />
+            <mass value="${MC}" />
+            <inertia ixx="${(2/5)*MC*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
+                iyy="${(2/5)*MC*(R-(H/2))**2}" iyz="0.0"
+                izz="${(2/5)*MC*(R-(H/2))**2}" />
         </inertial>
     </link>
 
@@ -164,10 +172,10 @@
         </collision>
 
         <inertial>
-            <mass value="${MW}" />
-            <inertia ixx="${(2/5)*MW*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
-                iyy="${(2/5)*MW*(R-(H/2))**2}" iyz="0.0"
-                izz="${(2/5)*MW*(R-(H/2))**2}" />
+            <mass value="${MC}" />
+            <inertia ixx="${(2/5)*MC*(R-(H/2))**2}" ixy="0.0" ixz="0.0"
+                iyy="${(2/5)*MC*(R-(H/2))**2}" iyz="0.0"
+                izz="${(2/5)*MC*(R-(H/2))**2}" />
         </inertial>
     </link>
 
