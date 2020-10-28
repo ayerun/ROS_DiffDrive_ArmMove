@@ -27,7 +27,6 @@
 
     <link name='base_link'>
         <visual>
-            <origin xyz='0 0 0'/>
             <geometry>
                 <box size='${L} ${W} ${H}'/>
             </geometry>
@@ -37,14 +36,12 @@
         </visual>
 
         <collision>
-            <origin xyz='0 0 ${H/2}'/>
             <geometry>
                 <box size='${L} ${W} ${H}'/>
             </geometry>
         </collision>
 
         <inertial>
-            <origin xyz='0 0 ${H/2}'/>
             <mass value='${MR}'/>
             <inertia ixx="${MR*(H**2+W**2)/12}" ixy="0" ixz="0"
                iyy="${MR*(H**2+L**2)/12}" iyz="0"
