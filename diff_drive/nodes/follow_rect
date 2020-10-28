@@ -14,7 +14,7 @@ class rect:
     def __init__(self):
         '''
         constructor of rect class
-        initialized publisher and parameters
+        initializes publisher and parameters
         '''
         #import rectangle parameters
         self.len = rospy.get_param('follow_rect/rect_L')
@@ -41,10 +41,10 @@ class rect:
         turn robot 90 degrees
         '''
         now = rospy.get_time()
-        while rospy.get_time() < now+4:
-            self.pub.publish(self.create_twist(0,pi/8))
+        while rospy.get_time() < now+3:
+            self.pub.publish(self.create_twist(0,pi/6))
             self.prate.sleep()
-        #self.pub.publish(self.create_twist(0,0))
+        self.pub.publish(self.create_twist(0,0))
 
 
     def follow(self):
@@ -96,6 +96,11 @@ class rect:
 
 
 def main():
+    '''
+    main function
+    creates rect object
+    uses rect object to continuously follow rectangle trajectory
+    '''
 
     rospy.init_node('follow_rect')
     r = rect()

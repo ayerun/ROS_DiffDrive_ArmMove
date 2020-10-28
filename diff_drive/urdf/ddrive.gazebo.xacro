@@ -12,8 +12,8 @@
     <xacro:property name='R' value='${H}'/>
     <xacro:property name='WL' value='${W/5}'/>
     <!-- masses -->
-    <xacro:property name='MR' value='0.5'/>
-    <xacro:property name='MW' value='0.1'/>
+    <xacro:property name='MR' value='0.1'/>
+    <xacro:property name='MW' value='0.02'/>
 
     <gazebo reference="base_link">
         <material>Gazebo/TurquoiseGlow</material>
