@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 import rospy
-from geometry_msgs.msg import Twist, Vector3
-from math import pi
 import time
+from geometry_msgs.msg import Twist, Vector3
+from std_srvs.srv import Empty
+from math import pi
 
 class flip:
     '''
     Contains function to flip robot
+    Services: unpause_physics_client - unpauses Gazebo simulation
     Publishes:  geometry_msgs/Twist message to cmd_vel
     '''
     def __init__(self):
@@ -19,7 +21,10 @@ class flip:
         #initialize publisher
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
         self.prate = rospy.Rate(300)
-        time.sleep(5)
+
+        #initialize services
+        rospy.wait_for_service('/gazebo/unpause_physics')
+        self.unpause_physics_client = rospy.ServiceProxy('/gazebo/unpause_physics',Empty)
 
     def create_twist(self,xdot,omega):
         '''
@@ -59,11 +64,14 @@ def main():
     '''
     main function
     creates flip object
+    unpauses Gazebo
     uses flip object to continuously flip robot
     '''
 
     rospy.init_node('flip')
     f = flip()
+    f.unpause_physics_client()
+    time.sleep(2)
     while not rospy.is_shutdown():
         f.flip()
     rospy.spin()
