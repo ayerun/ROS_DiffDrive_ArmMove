@@ -1,28 +1,38 @@
 <launch>
+
+    <!-- optional node launch arguements -->
     <arg name='gaz' default='true'/>
     <arg name='rect' default='false'/>
     <arg name='flip' default='true'/>
+
+    <!-- robot spawn position in Gazebo -->
     <arg name="x_pos" default="0.0"/>
     <arg name="y_pos" default="1.0"/>
     <arg name="z_pos" default="0.35"/>
     
+    <!-- launch gazebo world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch" if='$(arg gaz)'>
         <arg name="world_name" value="$(find diff_drive)/worlds/ddrive.world"/>
         <arg name="paused" value="true"/>
     </include>
 
+    <!-- import urdf into gazebo -->
     <param name="robot_description" command="xacro '$(find diff_drive)/urdf/ddrive.urdf.xacro'" />
     <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-urdf -model cybercaster -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
 
+    <!-- launch rviz with urdf -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find diff_drive)/config/cybercaster.rviz"/>
 
+    <!-- start follow_rect node -->
     <node name="follow_rect" pkg="diff_drive" type="follow_rect" if='$(arg rect)' output='screen'>
         <remap from='/cmd_vel' to='diff/cmd_vel'/>
         <rosparam file='$(find diff_drive)/config/rect_dims.yaml' />
     </node>
 
+    <!-- start flip node -->
     <node name="flip" pkg="diff_drive" type="flip" output='screen' if='$(arg flip)'>
         <remap from='/cmd_vel' to='diff/cmd_vel'/>
     </node>
+
 </launch>
