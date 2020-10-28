@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 import rospy
+import time
 from geometry_msgs.msg import Twist, Vector3
 from math import pi
-import time
+from std_srvs.srv import Empty
 
 class rect:
     '''
     Publishes:  geometry_msgs/Twist message to cmd_vel
+    Services: unpause_physics_client - unpauses Gazebo simulation
     Parameters: len - length of rectangle
                 wid - width of rectangle
     '''
@@ -24,8 +26,9 @@ class rect:
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
         self.prate = rospy.Rate(300)
 
-        #GET RID OF THIS
-        time.sleep(5)
+        #initialize services
+        rospy.wait_for_service('/gazebo/unpause_physics')
+        self.unpause_physics_client = rospy.ServiceProxy('/gazebo/unpause_physics',Empty)
 
     def create_twist(self,xdot,omega):
         '''
@@ -110,9 +113,10 @@ def main():
     creates rect object
     uses rect object to continuously follow rectangle trajectory
     '''
-
     rospy.init_node('follow_rect')
     r = rect()
+    r.unpause_physics_client()
+    time.sleep(2)
     while not rospy.is_shutdown():
         r.follow()
     rospy.spin()
