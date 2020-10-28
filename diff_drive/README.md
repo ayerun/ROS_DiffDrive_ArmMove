@@ -28,5 +28,9 @@
     * When these arguments are true the corresponding nodes are launched
     * By default gui is true
     * Set arguements true/false via the command line or the launch file
+    * The following command launches without joint state publisher gui:
+```
+roslaunch diff_drive ddrive_rviz.launch gui:=false
+```
 
 #### Videos:
