@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+import sys
+import rospy
+import moveit_commander
+import moveit_msgs.msg
+import geometry_msgs.msg
+from math import pi
+
+class Mover:
+    '''
+    stuff
+    '''
+    def __init__(self):
+        '''
+        stuff
+        '''
+
+        #initalize moveit_commander and node
+        moveit_commander.roscpp_initialize(sys.argv)
+        rospy.init_node('mover')
+
+        #initialize robot commander
+        self.robot = moveit_commander.RobotCommander()
+
+        #initialize scene object
+        self.scene = moveit_commander.PlanningSceneInterface()
+
+        #initialize move group
+        self.move_group = moveit_commander.MoveGroupCommander('interbotix_arm')
+
+        #add objects to scene
+        rospy.sleep(5)
+        self.add_scenery()
+
+    def add_scenery(self):
+        table = geometry_msgs.msg.PoseStamped()
+        table.header.frame_id = 'world'
+        table.pose.position = geometry_msgs.msg.Point(x=0,y=0,z=0)
+        print('adding')
+        self.scene.add_box('table',table,(1.5,1.5,0.1))
+        print('added box')
+
+
+def main():
+    mov = Mover()
+    rospy.spin()
+
+if __name__ == "__main__":
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass

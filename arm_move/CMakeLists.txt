@@ -9,6 +9,7 @@ project(arm_move)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  moveit_msgs
   rospy
   rviz
   std_msgs
@@ -69,10 +70,12 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   std_msgs
-# )
+ generate_messages(
+  DEPENDENCIES
+  geometry_msgs
+  std_msgs
+  moveit_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,7 +109,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arm_move
-#  CATKIN_DEPENDS geometry_msgs rospy rviz std_msgs
+ CATKIN_DEPENDS geometry_msgs rospy rviz std_msgs moveit_msgs
 #  DEPENDS system_lib
 )
 
