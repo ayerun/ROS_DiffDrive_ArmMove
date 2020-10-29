@@ -26,7 +26,7 @@
     * Gazebo is launched in a paused state, but the flip and follow_rect nodes contain code that unpauses Gazebo
     * Set arguements true/false via the command line or the launch file
 1. ddrive_rviz.launch configuration
-    * The ddrive_rviz launch file one arguements (gui) for one optional launch node
+    * The ddrive_rviz launch file contains one arguement (gui) for one optional launch node
     * gui launches the joint state publisher gui
     * When these arguments are true the corresponding nodes are launched
     * By default gui is true
