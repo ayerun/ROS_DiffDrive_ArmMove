@@ -9,7 +9,6 @@ project(arm_move)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  moveit
   rospy
   rviz
   std_msgs
@@ -107,7 +106,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arm_move
-#  CATKIN_DEPENDS geometry_msgs moveit rospy rviz std_msgs
+#  CATKIN_DEPENDS geometry_msgs rospy rviz std_msgs
 #  DEPENDS system_lib
 )
 
