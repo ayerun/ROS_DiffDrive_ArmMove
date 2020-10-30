@@ -41,6 +41,9 @@ class Mover:
         self.add_table()
 
     def add_table(self):
+        '''
+        adds a table to the motion planning scene
+        '''
         table = PoseStamped()
         table.header.frame_id = 'world'
         table.pose.position = Point(x=0.3,y=0,z=-0.05)
