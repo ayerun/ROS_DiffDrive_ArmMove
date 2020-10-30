@@ -1,0 +1,4 @@
+geometry_msgs/Point position
+bool gripper
+---
+moveit_msgs/MoveItErrorCodes code

@@ -4,7 +4,9 @@ import sys
 import rospy
 import moveit_commander
 import moveit_msgs.msg
-import geometry_msgs.msg
+from geometry_msgs.msg import PoseStamped, Point
+from std_srvs.srv import Empty, EmptyResponse
+from arm_move.srv import reset, step
 from math import pi
 
 class Mover:
@@ -29,17 +31,30 @@ class Mover:
         #initialize move group
         self.move_group = moveit_commander.MoveGroupCommander('interbotix_arm')
 
-        #add objects to scene
-        rospy.sleep(5)
-        self.add_scenery()
+        #initialize services
+        self.Reset = rospy.Service('reset',reset,self.reset_callback)
 
-    def add_scenery(self):
-        table = geometry_msgs.msg.PoseStamped()
+        #add table to scene
+        rospy.sleep(1)
+        self.add_table()
+        # self.reset_callback()
+
+    def add_table(self):
+        table = PoseStamped()
         table.header.frame_id = 'world'
-        table.pose.position = geometry_msgs.msg.Point(x=0,y=0,z=0)
-        print('adding')
-        self.scene.add_box('table',table,(1.5,1.5,0.1))
-        print('added box')
+        table.pose.position = Point(x=0.3,y=0,z=-0.05)
+        table.pose.orientation.w = 1
+        print(table)
+        self.scene.add_box('table',table,(1,0.6,0.1))
+    
+    def reset_callback(self,req):
+        box_stamped = PoseStamped()
+        box_stamped.header.frame_id = 'world'
+        box_stamped.pose = req.box_pose
+        # # box.pose.position = Point(x=0.2,y=0,z=0)
+        # # box.pose.orientation.w = 1
+        self.scene.add_box('realsense',box_stamped,(0.09,0.14, 0.05))
+        return []
 
 
 def main():

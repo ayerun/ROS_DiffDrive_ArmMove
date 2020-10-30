@@ -9,6 +9,7 @@ project(arm_move)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
+  message_generation
   moveit_msgs
   rospy
   rviz
@@ -56,11 +57,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  reset.srv
+  step.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -73,8 +74,8 @@ find_package(catkin REQUIRED COMPONENTS
  generate_messages(
   DEPENDENCIES
   geometry_msgs
-  std_msgs
   moveit_msgs
+  std_msgs
 )
 
 ################################################
@@ -109,7 +110,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arm_move
- CATKIN_DEPENDS geometry_msgs rospy rviz std_msgs moveit_msgs
+ CATKIN_DEPENDS geometry_msgs message_runtime moveit_msgs rospy rviz std_msgs
 #  DEPENDS system_lib
 )
 
@@ -163,10 +164,10 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+  nodes/mover
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
