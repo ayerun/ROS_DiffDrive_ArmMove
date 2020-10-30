@@ -57,7 +57,6 @@
   <build_depend>std_msgs</build_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
   <build_export_depend>moveit_msgs</build_export_depend>
-  <build_export_depend>message_runtime</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>rviz</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>

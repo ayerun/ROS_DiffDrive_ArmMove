@@ -44,15 +44,28 @@ class Mover:
         table.header.frame_id = 'world'
         table.pose.position = Point(x=0.3,y=0,z=-0.05)
         table.pose.orientation.w = 1
-        print(table)
         self.scene.add_box('table',table,(1,0.6,0.1))
     
     def reset_callback(self,req):
+        '''
+        callback function for reset service
+        creates a collision object at the inputted position
+        moves arm to home configuration
+        Arg:
+            req.box_pose (Pose): desired pose for collision object
+        '''
+
+        #Delete collision object if already in scene
+        try:
+            self.scene.remove_world_object('realsense')
+        except:
+            pass
+
         box_stamped = PoseStamped()
         box_stamped.header.frame_id = 'world'
         box_stamped.pose = req.box_pose
-        # # box.pose.position = Point(x=0.2,y=0,z=0)
-        # # box.pose.orientation.w = 1
+
+        #Create collision object
         self.scene.add_box('realsense',box_stamped,(0.09,0.14, 0.05))
         return []
 
