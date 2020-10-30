@@ -3,8 +3,8 @@
 import sys
 import rospy
 import moveit_commander
-import moveit_msgs.msg
-from geometry_msgs.msg import PoseStamped, Point
+from moveit_msgs.msg import MoveItErrorCodes
+from geometry_msgs.msg import PoseStamped, Point, Pose
 from std_srvs.srv import Empty, EmptyResponse
 from arm_move.srv import reset, step
 from math import pi
@@ -35,6 +35,7 @@ class Mover:
 
         #initialize services
         self.Reset = rospy.Service('reset',reset,self.reset_callback)
+        self.Step = rospy.Service('step',step,self.step_callback)
 
         #add table to scene
         rospy.sleep(1)
@@ -79,9 +80,31 @@ class Mover:
 
         return []
 
+    def step_callback(self,req):
+        print('in callback')
+        try:
+            print('im trying!')
+            xyz = []
+            xyz.append(req.position.x)
+            xyz.append(req.position.y)
+            xyz.append(req.position.z)
+            print('hello')
+            self.move_group.set_position_target(xyz)
+            print('set target')
+            plan = self.move_group.go(wait=True)
+            print('executed')
+            self.move_group.stop()
+        except Exception() as result:
+            return result
+
+        return MoveItErrorCodes()
+
+
 
 def main():
     mov = Mover()
+    state = mov.robot.get_current_state()
+    print(state)
     rospy.spin()
 
 if __name__ == "__main__":
