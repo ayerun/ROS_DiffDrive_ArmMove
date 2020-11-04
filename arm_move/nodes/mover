@@ -89,12 +89,24 @@ class Mover:
         self.move_group.set_named_target('Home')
         self.move_group.go()
 
+        #clear waypoints
+        if req.clear_waypoints:
+            self.xlist=[]
+            self.ylist=[]
+            self.zlist=[]
+            self.griplist=[]
+            rospy.set_param('mover/x', self.xlist)
+            rospy.set_param('mover/y', self.ylist)
+            rospy.set_param('mover/z', self.zlist)
+            rospy.set_param('mover/grip', self.griplist)
+
         return []
 
     def step_callback(self,req):
         '''
         plans and executes trajectory to user specified position
         opens/closes gripper based on user's specification
+        adds waypoint to parameter server if plan is successful
         Args:
             req.position (geometry_msgs/Point): desired end effector position
             req.gripper (bool): true = close gripper | false = open gripper
