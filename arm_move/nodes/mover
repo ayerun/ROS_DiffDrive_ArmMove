@@ -30,8 +30,9 @@ class Mover:
 
         #initialize move group
         self.move_group = moveit_commander.MoveGroupCommander('interbotix_arm')
-        self.move_group.set_goal_tolerance(0.01)
+        self.move_group.set_goal_tolerance(0.04)
         self.move_group.set_max_velocity_scaling_factor(1.0)
+        self.eelink = self.move_group.get_end_effector_link()
 
         #initialize services
         self.Reset = rospy.Service('reset',reset,self.reset_callback)
@@ -81,30 +82,24 @@ class Mover:
         return []
 
     def step_callback(self,req):
-        print('in callback')
         try:
-            print('im trying!')
             xyz = []
             xyz.append(req.position.x)
             xyz.append(req.position.y)
             xyz.append(req.position.z)
-            print('hello')
-            self.move_group.set_position_target(xyz)
-            print('set target')
-            plan = self.move_group.go(wait=True)
-            print('executed')
+            self.move_group.set_position_target(xyz,end_effector_link=self.eelink)
+            go = self.move_group.go(wait=True)
             self.move_group.stop()
+            rospy.sleep(1)
         except Exception() as result:
+            print('in exception')
             return result
-
+        print('Error Codes: ')
         return MoveItErrorCodes()
-
 
 
 def main():
     mov = Mover()
-    state = mov.robot.get_current_state()
-    print(state)
     rospy.spin()
 
 if __name__ == "__main__":

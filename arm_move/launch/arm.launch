@@ -9,8 +9,8 @@
         <arg name='use_actual'  value='true'    if='$(arg use_hardware)'/>
     </include>
 
-    <node name='mover'  pkg='arm_move'  type='mover' output='screen' ns='$(arg robot_name)'>
-        <remap from="/attached_collision_object" to="/$(arg robot_name)/attached_collision_object"/>
+    <node name='mover'  pkg='arm_move'  type='mover' output='screen' ns='$(arg robot_name)' >
+        <!-- <remap from="/attached_collision_object" to="/$(arg robot_name)/attached_collision_object"/> -->
         <remap from="/collision_object" to="/$(arg robot_name)/collision_object"/>
     </node>
 
