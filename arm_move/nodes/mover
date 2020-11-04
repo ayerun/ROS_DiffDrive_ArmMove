@@ -22,6 +22,12 @@ class Mover:
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node('mover')
 
+        #import waypoints
+        self.xlist = rospy.get_param('mover/x')
+        self.ylist = rospy.get_param('mover/y')
+        self.zlist = rospy.get_param('mover/z')
+        self.griplist = rospy.get_param('mover/grip')
+
         #initialize robot commander
         self.robot = moveit_commander.RobotCommander()
 
@@ -39,7 +45,7 @@ class Mover:
         self.Step = rospy.Service('step',step,self.step_callback)
 
         #add table to scene
-        rospy.sleep(1)
+        rospy.sleep(2)
         self.add_table()
 
     def add_table(self):
@@ -59,7 +65,7 @@ class Mover:
         creates a collision object at the inputted position
         moves arm to home configuration
         Arg:
-            req.box_pose (Pose): desired pose for collision object
+            req.box_pose (geometry_msgs/Pose): desired pose for collision object
         '''
 
         #Delete collision object if already in scene
@@ -83,7 +89,13 @@ class Mover:
 
     def step_callback(self,req):
         '''
-        stuff
+        plans and executes trajectory to user specified position
+        opens/closes gripper based on user's specification
+        Args:
+            req.position (geometry_msgs/Point): desired end effector position
+            req.gripper (bool): true = close gripper | false = open gripper
+        Returns:
+            plan[3] (moveit_msgs/MoveItErrorCodes): error code from planning trajectory
         '''
         #set goal state
         xyz = []
@@ -106,6 +118,13 @@ class Mover:
         else:
             self.move_gripper.set_named_target('Open')
             self.move_gripper.go()
+        
+        #waypoint management
+        if plan[3].val == 1:
+            self.xlist.append(xyz[0])
+            self.ylist.append(xyz[1])
+            self.zlist.append(xyz[2])
+            self.griplist.append(req.gripper)
 
         #return error codes
         return plan[3]
