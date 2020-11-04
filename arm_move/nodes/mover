@@ -6,7 +6,7 @@ import moveit_commander
 from moveit_msgs.msg import MoveItErrorCodes
 from geometry_msgs.msg import PoseStamped, Point, Pose
 from std_srvs.srv import Empty, EmptyResponse
-from arm_move.srv import reset, step
+from arm_move.srv import reset, step, follow
 from math import pi
 
 class Mover:
@@ -47,6 +47,7 @@ class Mover:
         #initialize services
         self.Reset = rospy.Service('reset',reset,self.reset_callback)
         self.Step = rospy.Service('step',step,self.step_callback)
+        self.Follow = rospy.Service('follow',follow,self.follow_callback)
 
         #add table to scene
         rospy.sleep(2)
@@ -70,6 +71,7 @@ class Mover:
         moves arm to home configuration
         Arg:
             req.box_pose (geometry_msgs/Pose): desired pose for collision object
+            req.clear_waypoints (bool): clears waypoints in parameter server if true
         '''
 
         #Delete collision object if already in scene
@@ -104,6 +106,7 @@ class Mover:
 
     def step_callback(self,req):
         '''
+        callback for step service
         plans and executes trajectory to user specified position
         opens/closes gripper based on user's specification
         adds waypoint to parameter server if plan is successful
@@ -148,6 +151,44 @@ class Mover:
 
         #return error codes
         return plan[3]
+    
+    def follow_callback(self,req):
+        '''
+        callback for follow service
+        arms plans and executes paths to all waypoints
+        cycle repeats if user specifies
+        Args:
+            req.repeat (bool): if true cycle repeats continuously
+        '''
+        self.follow_waypoints()
+        while req.repeat:
+            self.follow_waypoints()
+
+        return []
+    
+    def follow_waypoints(self):
+        '''
+        arms plans and executes paths to all waypoints
+        '''
+        for i in range(len(self.xlist)):
+            #set goal state
+            xyz = []
+            xyz.append(self.xlist[i])
+            xyz.append(self.ylist[i])
+            xyz.append(self.zlist[i])
+            self.move_group.set_position_target(xyz)
+
+            #plan and execute trajectory
+            self.move_group.go(wait=True)
+
+            #Open/Close Gripper
+            if self.griplist[i]:
+                self.move_gripper.set_named_target('Closed')
+                self.move_gripper.go()
+            else:
+                self.move_gripper.set_named_target('Open')
+                self.move_gripper.go()
+
 
 
 def main():
