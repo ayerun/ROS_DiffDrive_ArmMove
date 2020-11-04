@@ -11,7 +11,7 @@ from math import pi
 
 class Mover:
     '''
-    stuff
+    Run command rosparam dump /arm_move/config/waypoints.yaml /px100/mover to save collected waypoints to waypoints.yaml
     '''
     def __init__(self):
         '''
@@ -27,6 +27,10 @@ class Mover:
         self.ylist = rospy.get_param('mover/y')
         self.zlist = rospy.get_param('mover/z')
         self.griplist = rospy.get_param('mover/grip')
+        print(self.xlist)
+        print(self.ylist)
+        print(self.zlist)
+        print(self.griplist)
 
         #initialize robot commander
         self.robot = moveit_commander.RobotCommander()
@@ -125,6 +129,10 @@ class Mover:
             self.ylist.append(xyz[1])
             self.zlist.append(xyz[2])
             self.griplist.append(req.gripper)
+            rospy.set_param('mover/x', self.xlist)
+            rospy.set_param('mover/y', self.ylist)
+            rospy.set_param('mover/z', self.zlist)
+            rospy.set_param('mover/grip', self.griplist)
 
         #return error codes
         return plan[3]
