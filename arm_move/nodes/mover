@@ -82,20 +82,25 @@ class Mover:
         return []
 
     def step_callback(self,req):
-        try:
-            xyz = []
-            xyz.append(req.position.x)
-            xyz.append(req.position.y)
-            xyz.append(req.position.z)
-            self.move_group.set_position_target(xyz,end_effector_link=self.eelink)
-            go = self.move_group.go(wait=True)
-            self.move_group.stop()
-            rospy.sleep(1)
-        except Exception() as result:
-            print('in exception')
-            return result
-        print('Error Codes: ')
-        return MoveItErrorCodes()
+        '''
+        stuff
+        '''
+        #set goal state
+        xyz = []
+        xyz.append(req.position.x)
+        xyz.append(req.position.y)
+        xyz.append(req.position.z)
+        self.move_group.set_position_target(xyz,end_effector_link=self.eelink)
+
+        #plan trajectory
+        plan = self.move_group.plan()
+
+        #execute plan
+        self.move_group.execute(plan_msg=plan[1],wait=True)
+        self.move_group.stop()
+
+        #return error codes
+        return plan[3]
 
 
 def main():
