@@ -1,4 +1,4 @@
-# Differential Drive Package
+# Arm Move Package
 ### Author: Arun Kumar
 
 #### This package is used to control the px100 arm using either a fake node or the physical hardware. The package provides services to set and store arm waypoints. There is also a service to execute all waypoints in order. This package can be used for arm trajectory planning.

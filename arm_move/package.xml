@@ -2,7 +2,7 @@
 <package format="2">
   <name>arm_move</name>
   <version>0.0.0</version>
-  <description>The arm_move package</description>
+  <description> Control the px100 arm using either a fake node or the physical hardware. The package provides services to set and store end effector waypoints.</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
