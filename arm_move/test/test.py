@@ -15,7 +15,7 @@ class ArmMoveTests(unittest.TestCase):
 
     def test_step(self):
         rospy.wait_for_service("reset")
-        Reset = rospy.ServiceProxy("reset", step)
+        Reset = rospy.ServiceProxy("reset", reset)
         rospy.wait_for_service("step")
         Step = rospy.ServiceProxy("step", step)
         box = Pose()
