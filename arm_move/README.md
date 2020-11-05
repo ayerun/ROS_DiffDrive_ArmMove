@@ -3,7 +3,7 @@
 
 #### This package is used to control the px100 arm using either a fake node or the physical hardware. The package provides services to set and store arm waypoints. There is also a service to execute all waypoints in order. This package can be used for arm trajectory planning.
 
-![](videos/flip.gif)
+![](videos/arm_move.gif)
 
 #### Usage Instructions:
 1. Add package to the src folder in your ROS workspace
@@ -12,7 +12,7 @@
 1. Use reset service to clear waypoints from parameter server and return to home position
 1. Use step service to test and add new waypoints
 1. Use follow service to follow all waypoints in parameter server
-1. Run command `rosparam dump /arm_move/config/waypoints.yaml /px100/mover` to save collected waypoints to waypoints.yaml
+1. Run command `rosparam dump .../arm_move/config/waypoints.yaml /px100/mover` to save collected waypoints to waypoints.yaml
 
 #### Configuration Instructions:
 1. Configure waypoints in config/waypoints.yaml
