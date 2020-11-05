@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-""" Create a unittest node that tests out the add_two service"""
+
+""" Create a unittest node that tests out the step service"""
 import unittest
 import rospy
 import rostest
@@ -10,6 +11,7 @@ class ArmMoveTests(unittest.TestCase):
     def __init__(self, *args):
         super(ArmMoveTests, self).__init__(*args)
         rospy.init_node("test_client")
+        self.test_step()
 
     def test_step(self):
         rospy.wait_for_service("reset")
@@ -25,4 +27,4 @@ class ArmMoveTests(unittest.TestCase):
 
 if __name__ == "__main__":
     import rostest
-    rostest.rosrun('arm_move', "arm_test_node", ArmMoveTests)
+    rostest.rosrun('arm_move', "arm_move_tests", ArmMoveTests)
