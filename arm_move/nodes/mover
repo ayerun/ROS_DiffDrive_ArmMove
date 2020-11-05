@@ -40,9 +40,10 @@ class Mover:
 
         #initialize move groups
         self.move_group = moveit_commander.MoveGroupCommander('interbotix_arm')
-        self.move_group.set_goal_tolerance(0.01)
+        self.move_group.set_goal_tolerance(0.005)
         self.move_group.set_max_velocity_scaling_factor(1.0)
         self.move_gripper = moveit_commander.MoveGroupCommander('interbotix_gripper')
+        self.move_gripper.set_max_velocity_scaling_factor(1.0)
 
         #initialize services
         self.Reset = rospy.Service('reset',reset,self.reset_callback)
@@ -90,6 +91,8 @@ class Mover:
         #move arm to home position
         self.move_group.set_named_target('Home')
         self.move_group.go()
+        self.move_gripper.set_named_target('Open')
+        self.move_gripper.go()
 
         #clear waypoints
         if req.clear_waypoints:
@@ -155,7 +158,7 @@ class Mover:
     def follow_callback(self,req):
         '''
         callback for follow service
-        arms plans and executes paths to all waypoints
+        arms plans and executes paths to all waypoints in parameter server
         cycle repeats if user specifies
         Args:
             req.repeat (bool): if true cycle repeats continuously
@@ -168,7 +171,7 @@ class Mover:
     
     def follow_waypoints(self):
         '''
-        arms plans and executes paths to all waypoints
+        arms plans and executes paths to all waypoints in parameter server
         '''
         for i in range(len(self.xlist)):
             #set goal state
